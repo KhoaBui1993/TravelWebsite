@@ -4,12 +4,18 @@ const fileUpload = require('express-fileupload');
 const cookieParser = require('cookie-parser');
 const session = require('express-session');
 const flash = require('connect-flash');
+
 const passport = require('passport');
+
+const bcrypt =require('bcryptjs');
+
+
 const app = express();
 const port = process.env.PORT || 3000;
 require('dotenv').config();
 
-app.use(express.urlencoded({extended: true}));
+
+app.use(express.urlencoded({extended: false}));
 app.use(express.json());
 app.use(cookieParser('Secretstringforwebsite'));
 app.use(session({

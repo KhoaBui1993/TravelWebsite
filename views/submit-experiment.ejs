@@ -1,5 +1,5 @@
 <div class="px-4 py-5 my-5 text-center">
-  <h1 class="display-5 fw-bold">Submit Your experiment with city information</h1>
+  <h1 class="display-5 fw-bold">Share your experiences </h1>
   <div class="col-lg-6 mx-auto">
     <p class="lead">Share your amazing trips with thousands of people accross the world or simply introduce your city to the world. Fill our form to get started.</p>
   </div>
@@ -24,36 +24,6 @@
     <form action="/submit-experiment" enctype="multipart/form-data" method="POST">
     
       <div class="row g-3">
-
-        <div class="col-12">
-          <label for="country" class="form-label">Country Name</label>
-          <input type="text" name="country" id="country" class="form-control" required>
-        </div>
-        
-        <div class="col-12">
-          <label for="information" class="form-label">Information</label>
-          <textarea name="information" id="information" class="form-control" cols="30" rows="4"></textarea>
-        </div>
-
-        <div class="col-12">
-          <label for="author" class="form-label">Author Name</label>
-          <input type="text" name="author" id="author" class="form-control" required>
-        </div>
-
-        <div class="col-12">
-          <label for="name" class="form-label">Thingtodo</label><br>
-          <small>Example: Night life</small>
-          <div class="thingtodoList">
-            <div class="thingtodoDiv mb-1">
-              <input type="text" name="thingtodo" class="form-control">
-            </div>
-          </div>
-        </div>
-
-        <div class="col-12">
-          <button type="button" class="btn btn-outline-primary" id="addthingtodoBtn">Add more Thingtodo</button>
-        </div>
-
         <div class="col-12">
           <label for="Continent">Select Continent</label>
           <select class="form-select form-control" name="Continent" aria-label="Continent">
@@ -66,14 +36,60 @@
             <option value="NorthAmerica">North America</option>
           </select>
         </div>
-
         <div class="col-12">
-          <label for="image">Countries Image</label>
-          <input type="file" class="form-control" name="image" accept="image/*">
+          <label for="country" class="form-label">Country</label>
+          <input type="text" name="country" id="country" class="form-control" cols="30" rows="1" required>
+        </div>
+        <div class="col-12">
+          <label for="country" class="form-label">Place</label>
+          <input type="text" name="country" id="country" class="form-control" cols="30" rows="1" required>
+        </div>
+        <div class="col-12">
+          <label for="information" class="form-label">Travel Experiences</label>
+          <textarea name="information" id="information" class="form-control" cols="30" rows="4"></textarea>
+        </div>
+        <div class="col-12">
+          <label for="information" class="form-label">Pros</label>
+          <textarea name="information" id="information" class="form-control" cols="30" rows="2"></textarea>
+        </div>
+        <div class="col-12">
+          <label for="information" class="form-label">Cons</label>
+          <textarea name="information" id="information" class="form-control" cols="30" rows="2"></textarea>
+        </div>
+        <div class="col-12">
+          <label for="name" class="form-label">Recommended Activities</label><br>
+          <small>Example: Night life</small>
+          <div class="thingtodoList">
+            <div class="thingtodoDiv mb-1">
+              <input type="text" name="thingtodo" class="form-control">
+            </div>
+          </div>
         </div>
 
         <div class="col-12">
-          <button type="submit" class="btn btn-primary">Submit experiment</button>
+          <button type="button" class="btn btn-outline-primary" id="addthingtodoBtn">Add more Thingtodo</button>
+        </div>
+        <div class="col-12">
+          <label for="overallRating">Overall Rating</label>
+          <p class="star-rating">
+            <i class="my-star star-1" data-star="1"></i>
+            <i class="my-star star-2" data-star="2"></i>
+            <i class="my-star star-3" data-star="3"></i>
+            <i class="my-star star-4" data-star="4"></i>
+            <i class="my-star star-5" data-star="5"></i>
+          </p>
+          <input type="number" readonly id="output">
+        </div>
+       
+        <div class="col-12">
+          <label for="image">Add Photos</label>
+          <input type="file" class="form-control" name="image" accept="image/*">
+        </div>
+        
+       
+
+        <div class="col-12">
+          <button type="submit" class="btn btn-primary">Submit</button>
         </div>
 
       </div>
