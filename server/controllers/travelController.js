@@ -9,7 +9,6 @@ const Country= require('../models/countries');
 const bcrypt =require('bcryptjs')
 
 const saltRounds = 10
-const password = "Admin@123"
 
 /**
  * GET/
@@ -167,6 +166,13 @@ exports.submitexperimentOnPost = async(req, res) => {
 */
 exports.signupOnPost = async(req, res) => {
     try {
+      if ( await  UserProfile.findOne({email: req.body.email}))
+      {
+        req.flash('error','Email already used, Please login!');
+        res.redirect('/signin');
+      }
+      else
+      {
         const hashPassword = await bcrypt.hash(req.body.password,saltRounds);
         const newUser = new UserProfile({
           firstname: req.body.first_name,
@@ -175,9 +181,11 @@ exports.signupOnPost = async(req, res) => {
           password: hashPassword,
         });
         await newUser.save();
+        req.flash('success_alert','Successfully registered, Please login!');
         res.redirect('/signin');
+      }
     } catch (error) {
-      res.message("Can not sign up, Please try again!");
+      req.flash('error','Cannot registered, Please try again!');
       res.redirect('/signup');
       
     }
@@ -191,13 +199,15 @@ exports.signinOnPost = async(req, res) => {
     
     username = req.body.email_input;
     password = req.body.password_input;
-    var user = await UserProfile.findOne({email:username});
-    if (user.password == password)
-    {
-        req.session.context=user.firstname;
-        res.redirect('/');
-    }      
-    else
-        res.redirect('/signin.ejs');
-
-}
+    const user = await UserProfile.findOne({ email: username});
+    if (user) {
+      const cmp = await bcrypt.compare(password, user.password);
+      if (cmp) {
+        res.redirect("/");
+      } else {
+        res.redirect("/signin");
+      }
+    } else {
+      res.redirect("/signup");
+    }
+    }

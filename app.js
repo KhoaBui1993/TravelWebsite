@@ -26,6 +26,12 @@ app.use(session({
 app.use(express.static('public'));
 app.use(expressLayouts);
 app.use(flash());
+app.use(function(req, res, next){
+    res.locals.success_alert = req.flash('success_alert');
+    res.locals.error=req.flash('error');
+    next();
+});
+
 app.use(fileUpload());
 app.use(passport.initialize());
 app.use(passport.session());

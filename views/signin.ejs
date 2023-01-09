@@ -5,6 +5,7 @@
   <title>Bootstrap Simple Sign In Form</title>
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link data-minify="1" href="https://www.bacancytechnology.com/blog/wp-content/cache/min/1/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css?ver=1672663328" rel="stylesheet" type="text/css" >
   <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
@@ -154,6 +155,25 @@ input:checked + .slider:before {
   border-radius: 50%;
 }
   </style>
+  
+  <head>
+    <% if(success_alert != ''){ %>
+      <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <%= success_alert %>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+    <% } %>
+  
+    <% if(error != ''){ %>
+      <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <%= error %>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+    <% } %>
   </head>
   <body data-new-gr-c-s-check-loaded="14.1056.0" data-gr-ext-installed="">
   <div class="signup-form">
@@ -173,7 +193,7 @@ input:checked + .slider:before {
               <button type="submit" class="btn btn-primary btn-lg btn-block">Sign In</button>
           </div>
       <div class="form-group">
-        <label><a href="#">New member? Sign up for an account</a> </label>
+        <label><a href="/signup">New member? Sign up for an account</a> </label>
       </div>
       </form> 
   </div>
