@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const travelController = require ('../controllers/travelController');
+const authorization = require ('../middlewares/Middelware.js');
 
 //App Routes
 router.get('/',travelController.homepage);
@@ -20,9 +21,8 @@ router.get('/Europe',travelController.Europe);
 router.get('/Australia',travelController.Australia);
 router.get('/Africa',travelController.Africa);
 router.get('/explorelatest',travelController.explorelatest);
-
 router.get('/country/:id',travelController.exploreCountry);
-
+router.get('/User_Profile',authorization,travelController.User_Profile);
 
 
 module.exports = router;

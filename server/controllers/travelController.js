@@ -5,10 +5,8 @@ const UserProfile = require('../models/UserProfile');
 const  experiment= require('../models/countries');
 const Category=require('../models/Category');
 const Country= require('../models/countries');
-
-const bcrypt =require('bcryptjs')
-
-const saltRounds = 10
+const jwt=require('jsonwebtoken');
+const bcrypt =require('bcryptjs');
 
 /**
  * GET/
@@ -182,10 +180,12 @@ exports.signupOnPost = async(req, res) => {
         });
         await newUser.save();
         req.flash('success_alert','Successfully registered, Please login!');
+        res.status(200).json('New User create Successful');
         res.redirect('/signin');
       }
     } catch (error) {
       req.flash('error','Cannot registered, Please try again!');
+      res.status(201).json(err.message);
       res.redirect('/signup');
       
     }
@@ -196,18 +196,34 @@ exports.signupOnPost = async(req, res) => {
 */
 
 exports.signinOnPost = async(req, res) => {
-    
-    username = req.body.email_input;
-    password = req.body.password_input;
-    const user = await UserProfile.findOne({ email: username});
-    if (user) {
-      const cmp = await bcrypt.compare(password, user.password);
-      if (cmp) {
-        res.redirect("/");
+    try{
+      username = req.body.email_input;
+      password = req.body.password_input;
+      const user = await UserProfile.findOne({ email: username});
+      if (user) {
+        const cmp = await bcrypt.compare(password, user.password);
+        if (cmp) {
+          const payload = {
+            id: user._id,
+          }
+          const token =jwt.sign(payload,`${process.env.SECRET_KEY}`,{ expiresIn: '1d'});
+          res.cookie('access_token',token,{
+            httpOnly: true
+          })
+          res.redirect("/");
+        } else {
+          res.redirect("/signin");
+        }
       } else {
-        res.redirect("/signin");
+        res.redirect("/signup");
       }
-    } else {
-      res.redirect("/signup");
+    } catch (err){
+      req.flash('error',err.message);
+      res.redirect('/signin')
     }
+    
     }
+
+  exports.User_Profile = async(req,res) =>{
+    res.render('User_Profile', { title: 'User_Profile'} );
+  }

@@ -4,20 +4,16 @@ const fileUpload = require('express-fileupload');
 const cookieParser = require('cookie-parser');
 const session = require('express-session');
 const flash = require('connect-flash');
-
 const passport = require('passport');
-
 const bcrypt =require('bcryptjs');
-
-
 const app = express();
 const port = process.env.PORT || 3000;
 require('dotenv').config();
-
+const authorization = require('../middlewares/Middelware');
 
 app.use(express.urlencoded({extended: false}));
 app.use(express.json());
-app.use(cookieParser('Secretstringforwebsite'));
+app.use(cookieParser());
 app.use(session({
     secret: 'SecertstringforSession',
     saveUninitialized: true,
