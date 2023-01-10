@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const travelController = require ('../controllers/travelController');
-const authorization = require ('../middlewares/Middelware.js');
+const authorization = require ('../middleware/auth');
 
 //App Routes
 router.get('/',travelController.homepage);
