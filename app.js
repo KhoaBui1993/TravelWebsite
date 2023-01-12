@@ -9,7 +9,7 @@ const bcrypt =require('bcryptjs');
 const app = express();
 const port = process.env.PORT || 3000;
 require('dotenv').config();
-const authorization = require('../middlewares/Middelware');
+
 
 app.use(express.urlencoded({extended: false}));
 app.use(express.json());
@@ -22,18 +22,12 @@ app.use(session({
 app.use(express.static('public'));
 app.use(expressLayouts);
 app.use(flash());
-app.use(function(req, res, next){
-    res.locals.success_alert = req.flash('success_alert');
-    res.locals.error=req.flash('error');
-    next();
-});
-
 app.use(fileUpload());
 app.use(passport.initialize());
 app.use(passport.session());
 app.set('layout', './homepage');
 app.set('view engine', 'ejs');
-const routes = require('./server/routes/travelRoutes.js');
+const routes = require('./server/routes/travelRoutes');
 
 const { redirect } = require('express/lib/response');
 app.use('/', routes);

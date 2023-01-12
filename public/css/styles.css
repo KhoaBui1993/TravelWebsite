@@ -64,27 +64,7 @@ a { color: var(--bs-dark); }
     background-color: rgb(58, 109, 181);
  }
 
- .star-rating{
-    color: #bebebe;
-    font-size:2em;
-}
-/*create the star*/
-.my-star::before{
-    content:"\002605";
-}
-/*remove the default style (italic) of the star*/
-.my-star{
-    font-style: unset;
-}
-/*set active star color*/
-.is-active{
-    color:#fb8900;
-}
-/*set color on hover*/
-.my-star:not(.is-active):hover{
-    color: #fb8900;
-}
-
+ 
 body{
     margin-top:20px;
     color: #1a202c;

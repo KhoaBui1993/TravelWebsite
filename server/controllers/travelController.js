@@ -8,6 +8,9 @@ const Country= require('../models/countries');
 const jwt=require('jsonwebtoken');
 const bcrypt =require('bcryptjs');
 
+const createToken = (id) =>{
+  return jwt.sign({id},`${process.env.SECRET_KEY}`,{expiresIn: '1d'})
+}
 /**
  * GET/
  * Homepage
@@ -180,12 +183,10 @@ exports.signupOnPost = async(req, res) => {
         });
         await newUser.save();
         req.flash('success_alert','Successfully registered, Please login!');
-        res.status(200).json('New User create Successful');
         res.redirect('/signin');
       }
     } catch (error) {
       req.flash('error','Cannot registered, Please try again!');
-      res.status(201).json(err.message);
       res.redirect('/signup');
       
     }
@@ -203,10 +204,7 @@ exports.signinOnPost = async(req, res) => {
       if (user) {
         const cmp = await bcrypt.compare(password, user.password);
         if (cmp) {
-          const payload = {
-            id: user._id,
-          }
-          const token =jwt.sign(payload,`${process.env.SECRET_KEY}`,{ expiresIn: '1d'});
+          const token =createToken(user._id);
           res.cookie('access_token',token,{
             httpOnly: true
           })
@@ -223,7 +221,10 @@ exports.signinOnPost = async(req, res) => {
     }
     
     }
-
-  exports.User_Profile = async(req,res) =>{
-    res.render('User_Profile', { title: 'User_Profile'} );
-  }
+exports.logout_get = (req,res) => {
+  res.cookie('access_token','',{maxAge : 1});
+  res.redirect('/');
+}
+exports.User_Profile = async(req,res) =>{
+  res.render('User_Profile', { title: 'User_Profile'} );
+}
