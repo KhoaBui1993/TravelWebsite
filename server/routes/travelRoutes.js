@@ -25,5 +25,5 @@ router.get('/explorelatest',travelController.explorelatest);
 router.get('/country/:id',travelController.exploreCountry);
 router.get('/User_Profile',travelController.User_Profile);
 
-
+router.post('/do-comment',travelController.User_commentOnpost)
 module.exports = router;

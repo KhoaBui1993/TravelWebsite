@@ -7,10 +7,12 @@ const Category=require('../models/Category');
 const Country= require('../models/countries');
 const jwt=require('jsonwebtoken');
 const bcrypt =require('bcryptjs');
+const { nextTick } = require('process');
 
 const createToken = (id) =>{
   return jwt.sign({id},`${process.env.SECRET_KEY}`,{expiresIn: '1d'})
 }
+
 /**
  * GET/
  * Homepage
@@ -58,11 +60,7 @@ exports.signin = async(req, res) => {
 exports.signup = async(req, res) => {
     res.render('signup',{title: 'Sign-up'});
 }
-exports.logout = async(req, res)=> 
-{
-    context=null;
-    res.render('index',{context: context});
-}
+
 exports.Africa = async(req, res) => {
   const africa= await Country.find({'continent':'Africa'});
   res.render('Africa',{title: 'Africa',africa});
@@ -107,7 +105,7 @@ exports.exploreCountry= async(req,res) => {
 */
 exports.submitexperiment = async(req, res) => {
     const infoErrorsObj = req.flash('infoErrors');
-    const infoSubmitObj = req.flash('infoSubmit');
+    const infoSubmitObj = req.flash('infoSubmit');    
     res.render('submit-experiment', { title: 'Travel Blog - Submit City', infoErrorsObj, infoSubmitObj  } );
   }
   
@@ -116,11 +114,17 @@ exports.submitexperiment = async(req, res) => {
  * Submit country
 */
 exports.submitexperimentOnPost = async(req, res) => {
-    try {
   
-      let imageUploadFile;
-      let uploadPath;
-      let newImageName;
+    try {
+      let user;
+        const token = req.cookies.access_token;
+      if (token){
+        const decoded = jwt.verify(token, `${process.env.SECRET_KEY}`);
+        user = await UserProfile.findById(decoded.id);
+      }
+        let imageUploadFile;
+        let uploadPath;
+        let newImageName;
   
       if(!req.files || Object.keys(req.files).length === 0){
         console.log('No Files where uploaded.');
@@ -136,18 +140,21 @@ exports.submitexperimentOnPost = async(req, res) => {
         })
   
       }
-  
+
       const newCountry = new Country({
         countries: req.body.country,
+        place:req.body.place,
         information: req.body.information,
-        author: req.body.author,
-        thingtodo: req.body.thingtodo,
+        pros: req.body.pros,
+        cons: req.body.cons,
+        recommendedactivities: req.body.recommendedActivities,
         continent: req.body.Continent,
-        image: newImageName
+        image: newImageName,
+        author: user.firstname,
+        author_id: user._id
       });
-      
       await newCountry.save();
-  
+      console.log(newCountry);
       //  req.flash('/', 'Recipe has been added.')
       res.redirect('/');
     } catch (error) {
@@ -157,8 +164,6 @@ exports.submitexperimentOnPost = async(req, res) => {
       res.redirect('/submit-experiment');
     }
   }
-  
-
   
   
 /**
@@ -227,4 +232,24 @@ exports.logout_get = (req,res) => {
 }
 exports.User_Profile = async(req,res) =>{
   res.render('User_Profile', { title: 'User_Profile'} );
+}
+/**
+ * Start POST /User_comment
+ * User add comment
+*/
+exports.User_commentOnpost = async (req, res) =>{
+
+  var commentObj= {"User_id_comment": req.body.user_id, "User_name_comment":req.body.username, "User_comment":req.body.comments};
+  console.log(commentObj);
+  Country.findOneAndUpdate(
+    {_id: req.body.post_id},
+    {$push: {comment : commentObj}},
+    function (error, success) {
+      if (error) {
+          console.log(error);
+      } else {
+          console.log(success);
+      }
+  });
+  res.redirect('/');
 }
