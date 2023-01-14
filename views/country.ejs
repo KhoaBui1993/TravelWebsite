@@ -64,14 +64,16 @@
                             <i class="far fa-comment-dots me-2"></i>
                             <p class="mb-0">Comment</p>
                           </a>
-                            <a class="d-flex align-items-center me-3">
-                              <i class="far fa-delete-left me-2"></i>
-                              <form method="post" action="some_page" class="inline">
-                                <button type="submit" name="submit_param" value="submit_value" class="link-button">
-                                  Delete
-                                </button>
-                              </form>
-                            </a>
+                          <a class="d-flex align-items-center me-3">
+                            <form method="post" action="/delete-comment/<%= comment._id%>" class="inline">
+                              <input class="form-control" type="hidden" name="username" value="<%=user.firstname%>">
+                              <input class="form-control" type="hidden" name="post_id" value="<%= countryselect._id%>">
+                              <input class="form-control" type="hidden" name="user_id" value="<%=user._id%>">
+                              <button type="submit" class="btn btn-link">
+                                Delete
+                              </button>
+                            </form>
+                          </a>
                           </form>
                        
                         </div>

@@ -254,6 +254,6 @@ exports.User_commentOnpost = async (req, res) =>{
   res.redirect('/country/'+req.body.post_id);
 }
 exports.delete_commentOnpost = async (req,res) =>{
-  console.log(req.params.id)
+  console.log(req.body.post_id)
   res.redirect('/country/'+req.body.post_id);
 }
