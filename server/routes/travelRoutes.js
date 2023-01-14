@@ -23,7 +23,8 @@ router.get('/Australia',travelController.Australia);
 router.get('/Africa',travelController.Africa);
 router.get('/explorelatest',travelController.explorelatest);
 router.get('/country/:id',travelController.exploreCountry);
-router.get('/User_Profile',travelController.User_Profile);
+router.get('/User_Profile/:id',travelController.User_Profile);
 
-router.post('/do-comment',travelController.User_commentOnpost)
+router.post('/do-comment',travelController.User_commentOnpost);
+router.post('/delete-comment/:id',travelController.delete_commentOnpost)
 module.exports = router;

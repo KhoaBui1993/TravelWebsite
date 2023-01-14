@@ -231,6 +231,8 @@ exports.logout_get = (req,res) => {
   res.redirect('/');
 }
 exports.User_Profile = async(req,res) =>{
+  let userID= req.params.id;
+  console.log(userID)
   res.render('User_Profile', { title: 'User_Profile'} );
 }
 /**
@@ -239,8 +241,7 @@ exports.User_Profile = async(req,res) =>{
 */
 exports.User_commentOnpost = async (req, res) =>{
 
-  var commentObj= {"User_id_comment": req.body.user_id, "User_name_comment":req.body.username, "User_comment":req.body.comments};
-  console.log(commentObj);
+  var commentObj= {"User_id_comment": req.body.user_id, "User_name_comment":req.body.username, "User_comment":req.body.comments ,"createAt": Date.now()};
   Country.findOneAndUpdate(
     {_id: req.body.post_id},
     {$push: {comment : commentObj}},
@@ -248,8 +249,11 @@ exports.User_commentOnpost = async (req, res) =>{
       if (error) {
           console.log(error);
       } else {
-          console.log(success);
       }
   });
-  res.redirect('/');
+  res.redirect('/country/'+req.body.post_id);
+}
+exports.delete_commentOnpost = async (req,res) =>{
+  console.log(req.params.id)
+  res.redirect('/country/'+req.body.post_id);
 }
