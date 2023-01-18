@@ -231,10 +231,13 @@ exports.logout_get = (req,res) => {
   res.redirect('/');
 }
 exports.User_Profile = async(req,res) =>{
-  let userID= req.params.id;
-  console.log(userID)
-  res.render('User_Profile', { title: 'User_Profile'} );
-}
+  userID= req.params.id;
+  const result= await Country.find({'author_id':req.params.id});
+  const user_comment = await Country.find({User_id_comment : req.params.id})
+  console.log(user_comment.place)
+  res.render('User_Profile', { title: 'User_Profile',result,user_comment} );
+};
+
 /**
  * Start POST /User_comment
  * User add comment
@@ -249,11 +252,22 @@ exports.User_commentOnpost = async (req, res) =>{
       if (error) {
           console.log(error);
       } else {
+        console.log(success)
       }
   });
   res.redirect('/country/'+req.body.post_id);
 }
 exports.delete_commentOnpost = async (req,res) =>{
   console.log(req.body.post_id)
-  res.redirect('/country/'+req.body.post_id);
+  console.log(req.body.comment_id)
+  const comment_find = await Country.findById(req.body.post_id)
+
+  if (comment_find) {
+    comment_find.comment.pull(req.body.comment_id)
+    await comment_find.save()
+    res.redirect('/country/'+req.body.post_id);
+  } else {
+    res.status(404)
+    throw new Error('Post not found')
+  }
 }

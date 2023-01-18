@@ -1,6 +1,6 @@
+
 <div class="container">
   <div class="main-body">
-  
         <!-- Breadcrumb -->
         <nav aria-label="breadcrumb" class="main-breadcrumb">
           <ol class="breadcrumb">
@@ -9,7 +9,6 @@
           </ol>
         </nav>
         <!-- /Breadcrumb -->
-  
         <div class="row gutters-sm">
           <div class="col-md-4 mb-3">
             <div class="card">
@@ -61,7 +60,27 @@
                 <div class="card h-100">
                   <div class="card-body">
                     <h6 class="d-flex align-items-center mb-3"><i class="material-icons text-info mr-2">Posted</i></h6>
-                    
+                    <% if (result != '') { %>
+                      <% result.forEach(function(result,index){%>
+                        <div class="col">
+                          <div class="card shadow-sm">
+                            <a href="/country/<%=result._id%>" class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false">
+                              <div class="category__img category__img--xlarge shadow">
+                                  <img src="/uploads/<%= result.image %> " alt="<%= result.countries %> " Loading="lazy">
+                              </div>
+                            </a>  
+                            <div class="card-body">
+                              <p class="card-text"><%=result.countries%></p>
+                              <div class="d-flex justify-content-between align-items-center">
+                                <div class="btn-group">
+                                  <button type="button" onclick="location.href='/country/<%= result._id %>'" class="btn btn-sm btn-outline-secondary">View</button>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                     <%}) %>
+                     <% } %>
                   </div>
                 </div>
               </div>
@@ -69,16 +88,49 @@
                 <div class="card h-100">
                   <div class="card-body">
                     <h6 class="d-flex align-items-center mb-3"><i class="material-icons text-info mr-2">Commented and Liked</i></h6>
+                    <% if (user_comment != '') { %>
+                      <%=user_comment.User_comment%>
+                      <!-- <% user_comment.forEach(function(result,index){%> -->
+                        <!-- <div class="col">
+                          <div class="card shadow-sm">
+                            <a href="/country/<%=result._id%>" class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false">
+                              <div class="category__img category__img--xlarge shadow">
+                                  <img src="/uploads/<%= result.image %> " alt="<%= result.countries %> " Loading="lazy">
+                              </div>
+                            </a>  
+                            <div class="card-body">
+                              <p class="card-text"><%=result.countries%></p>
+                              <div class="d-flex justify-content-between align-items-center">
+                                <div class="btn-group">
+                                  <button type="button" onclick="location.href='/country/<%= result._id %>'" class="btn btn-sm btn-outline-secondary">View</button>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div> -->
+                     <%}) %>
+                     <% } %>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
-
-
-
           </div>
         </div>
-
       </div>
-  </div>
+</div>
+
+<link
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+rel="stylesheet"
+/>
+<!-- Google Fonts -->
+<link
+href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
+rel="stylesheet"
+/>
+<!-- MDB -->
+<link
+href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.1.0/mdb.min.css"
+rel="stylesheet"
+/>
