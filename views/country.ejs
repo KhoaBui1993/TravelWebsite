@@ -25,17 +25,6 @@
             <%- countryselect.author %>
           </div>
       </div>
-      
-        <!-- <div class="row pt-4">
-          <div class="col-12">
-            <h4>Pros:</h4>
-            <%- countryselect.pros %>
-            <h4>Cons:</h4>
-            <%- countryselect.cons %>
-            <h4>Author:</h4>
-            <%- countryselect.author %>
-          </div>
-        </div> -->
       </div>
       <div class="col-13 col-md-4">
         <div class="myBox">
@@ -48,8 +37,8 @@
                       <div class="card-body">
                         <div class="d-flex flex-start align-items-center">
                           <img class="rounded-circle shadow-1-strong me-3"
-                            src="https://mdbcdn.b-cdn.net/img/Photos/Avatars/img%20(19).webp" alt="avatar" width="60"
-                            height="60" />
+                            src="/User_picture_profile/<%=user.picture%>" alt="avatar" width="80"
+                            height="80" />
                           <div>
                             <h6 class="fw-bold text-primary mb-1"><%- comment.User_name_comment %></h6>
                             <p class="text-muted small mb-0">
@@ -72,6 +61,7 @@
                             <p class="mb-0">Comment</p>
                           </a> -->
                           <a class="d-flex align-items-center me-3">
+                            <% if(user != null ) { %>
                             <form method="post" action="/delete-comment/<%= comment._id%>" class="inline">
                               <input class="form-control" type="hidden" name="username" value="<%=user.firstname%>">
                               <input class="form-control" type="hidden" name="post_id" value="<%= countryselect._id%>">
@@ -81,6 +71,8 @@
                                 Delete
                               </button>
                             </form>
+                            <% }else { %>
+                              <% } %>
                           </a>
                           </form>
                        

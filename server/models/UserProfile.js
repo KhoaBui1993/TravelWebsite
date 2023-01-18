@@ -18,7 +18,11 @@ const UserSchema = new mongoose.Schema({
     password:{
         type:String,
         require: true
-    }
+    },
+    picture:{
+        type:String,
+        default: "blank-profile-picture-gf48cd313e_640.png"
+    } 
 },{timestamps: true}) ;
-UserSchema.index({email: 'text',password: 'text'});
+// UserSchema.index({email: 'text',password: 'text'});
 module.exports =mongoose.model('UserProfile', UserSchema);

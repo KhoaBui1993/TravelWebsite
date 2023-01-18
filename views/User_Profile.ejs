@@ -14,10 +14,17 @@
             <div class="card">
               <div class="card-body">
                 <div class="d-flex flex-column align-items-center text-center">
-                  <img src="/uploads/blank-profile-picture-gf48cd313e_640.png" class="rounded-circle" width="200">
+                  <img src="/User_picture_profile/<%- user.picture%>" class="rounded-circle" width="300" height="300">
                   <div class="mt-3">
                     <h4><%- user.firstname %> <%- user.lastname %></h4>
-                    <button class="btn btn-primary">Edit avatar</button>
+                    <form action="/edit-user-profile/<%- user._id%>" enctype="multipart/form-data" id="upload_form" method="POST">
+                      <div class="d-flex justify-content-center">
+                        <div class="btn btn-primary" >
+                            <label class="form-label text-white m-1" for="customFile2"> Edit Avatar</label>
+                            <input type="file" class="form-control d-none" id="customFile2" name="profile_picture" accept="image/*" >
+                        </div>
+                      </div>
+                    </form>
                   </div>
                 </div>
               </div>
@@ -89,17 +96,11 @@
                   <div class="card-body">
                     <h6 class="d-flex align-items-center mb-3"><i class="material-icons text-info mr-2">Commented and Liked</i></h6>
                     <% if (user_comment != '') { %>
-                      <%=user_comment.User_comment%>
-                      <!-- <% user_comment.forEach(function(result,index){%> -->
-                        <!-- <div class="col">
+                      <% user_comment.forEach(function(result,index){%>
+                         <div class="col">
                           <div class="card shadow-sm">
-                            <a href="/country/<%=result._id%>" class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false">
-                              <div class="category__img category__img--xlarge shadow">
-                                  <img src="/uploads/<%= result.image %> " alt="<%= result.countries %> " Loading="lazy">
-                              </div>
-                            </a>  
                             <div class="card-body">
-                              <p class="card-text"><%=result.countries%></p>
+                              <p class="card-text">Post: <%=result.countries%></p>
                               <div class="d-flex justify-content-between align-items-center">
                                 <div class="btn-group">
                                   <button type="button" onclick="location.href='/country/<%= result._id %>'" class="btn btn-sm btn-outline-secondary">View</button>
@@ -107,7 +108,7 @@
                               </div>
                             </div>
                           </div>
-                        </div> -->
+                        </div>
                      <%}) %>
                      <% } %>
                     </div>
@@ -119,7 +120,6 @@
         </div>
       </div>
 </div>
-
 <link
 href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
 rel="stylesheet"
@@ -134,3 +134,8 @@ rel="stylesheet"
 href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.1.0/mdb.min.css"
 rel="stylesheet"
 />
+<script type="text/javascript">
+  document.getElementById("customFile2").onchange = function() {
+      document.getElementById("upload_form").submit();
+  };
+</script>

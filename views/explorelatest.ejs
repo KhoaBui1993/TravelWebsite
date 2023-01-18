@@ -1,44 +1,48 @@
-<% if(latestcountry != null ) { %>
-    
-    <div class="row">
-      <div class="col-12 col-md-4">
-        <nav aria-label="breadcrumb">
-          <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="/">Home</a></li>
-            <li class="breadcrumb-item"><a href="/"><%- latestcountry.continent %></a></li>
-            <li class="breadcrumb-item active" aria-current="page"><%- latestcountry.countries %></li>
-          </ol>
-        </nav>
-        <a class="links selected" href="\"> Home</a>
-        <a class="links" href="\signin"> Login </a>
-        <a class="links" href="\signup">Register</a>
-        <a class="links" href="#">Contact Us</a>
-        <a class="links" href="#">More Info</a>
-      
-      </div>
-      
-      <div class="col-12 col-md-8">
-        <div class="row">
-          </p> <img src="/uploads/<%- latestcountry.image %>" style="top: 300px;" alt="<%- latestcountry.name %>" loading="lazy">
-          <div class="col-12"><h1><%- latestcountry.countries %></h1></div>
-          <div class="col-12 mb-4"> <%- latestcountry.category %></div>
-          <div class="col-12" style="white-space: pre-line;">
-            <h4>Experiment: </h4>
-            <%- latestcountry.information %>
-          </div>
-        </div>
-        <div class="row pt-4">
-          <div class="col-12">
-            <h4>Thing to do:</h4>
-            <ul class="list-group list-group-flush">
-              <% latestcountry.thingtodo.forEach(function(thingtodo, index){ %>
-                <li class="list-group-item"><%= thingtodo %></li>
-              <% }) %>
-            </ul> 
-          </div>
-        </div>
+<html lang="en">
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="/">Home</a></li>
+      <li class="breadcrumb-item active" aria-current="page">Asia</li>
+    </ol>
+  </nav>
+<div class="album py-5 bg-light">
+    <div class="container">
+      <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+        <% if (latestcountry != '') { %>
+          <% latestcountry.forEach(function(latestcountry,index){%>
+            <div class="col">
+              <div class="card shadow-sm">
+                <a href="/country/<%= latestcountry._id %>" class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false">
+                  <div class="category__img category__img--xlarge shadow">
+                      <img src="/uploads/<%= latestcountry.image %> " alt="<%=  latestcountry.countries %> " Loading="lazy">
+                  </div>
+                </a>  
+                <div class="card-body">
+                  <p class="card-text"><%=latestcountry.countries%></p>
+                  <div class="d-flex justify-content-between align-items-center">
+                    <div class="btn-group">
+                      <button type="button" onclick="location.href='/country/<%= latestcountry._id %>'" class="btn btn-sm btn-outline-secondary">View</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+         <%}) %>
+         <% } %>
       </div>
     </div>
-  <% } else { %>
-    <p>No item found.</p>
-  <% } %>
+  </div>
+  <link
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+rel="stylesheet"
+/>
+<!-- Google Fonts -->
+<link
+href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
+rel="stylesheet"
+/>
+<!-- MDB -->
+<link
+href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.1.0/mdb.min.css"
+rel="stylesheet"
+/>

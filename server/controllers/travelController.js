@@ -2,13 +2,11 @@ require('../models/database')
 const { render, redirect } = require('express/lib/response');
 const { session } = require('passport/lib');
 const UserProfile = require('../models/UserProfile');
-const  experiment= require('../models/countries');
 const Category=require('../models/Category');
 const Country= require('../models/countries');
 const jwt=require('jsonwebtoken');
 const bcrypt =require('bcryptjs');
-const { nextTick } = require('process');
-
+const saltRounds=10;
 const createToken = (id) =>{
   return jwt.sign({id},`${process.env.SECRET_KEY}`,{expiresIn: '1d'})
 }
@@ -154,7 +152,6 @@ exports.submitexperimentOnPost = async(req, res) => {
         author_id: user._id
       });
       await newCountry.save();
-      console.log(newCountry);
       //  req.flash('/', 'Recipe has been added.')
       res.redirect('/');
     } catch (error) {
@@ -186,12 +183,14 @@ exports.signupOnPost = async(req, res) => {
           email: req.body.email,
           password: hashPassword,
         });
+       
         await newUser.save();
-        req.flash('success_alert','Successfully registered, Please login!');
+        // req.flash('success_alert','Successfully registered, Please login!');
         res.redirect('/signin');
       }
     } catch (error) {
-      req.flash('error','Cannot registered, Please try again!');
+      
+      // req.flash('error','Cannot registered, Please try again!');
       res.redirect('/signup');
       
     }
@@ -233,8 +232,7 @@ exports.logout_get = (req,res) => {
 exports.User_Profile = async(req,res) =>{
   userID= req.params.id;
   const result= await Country.find({'author_id':req.params.id});
-  const user_comment = await Country.find({User_id_comment : req.params.id})
-  console.log(user_comment.place)
+  const user_comment = await Country.find({'User_id_comment' : req.params.id})
   res.render('User_Profile', { title: 'User_Profile',result,user_comment} );
 };
 
@@ -270,4 +268,32 @@ exports.delete_commentOnpost = async (req,res) =>{
     res.status(404)
     throw new Error('Post not found')
   }
+}
+
+exports.edituserprofileOnpost = async (req,res) =>{
+  let avatarUploadFile;
+  let avataruploadPath;
+  let newavatarName;
+  if(!req.files || Object.keys(req.files).length === 0){
+    console.log('No Files where uploaded.');
+  } else {
+    avatarUploadFile = req.files.profile_picture;
+    newavatarName = Date.now() + avatarUploadFile.name;
+    avataruploadPath = require('path').resolve('./') + '/public/User_picture_profile/' + newavatarName;
+    avatarUploadFile.mv(avataruploadPath, function(err){
+      if(err) return res.redirect('/');
+    })
+  }
+  UserProfile.findOneAndUpdate(
+    {_id: req.params.id},
+    { picture : newavatarName},
+    function (error, success) {
+      if (error) {
+          console.log(error);
+      } else {
+        console.log(success)
+      }
+  });
+
+  res.redirect('/User_Profile/'+req.params.id)
 }
