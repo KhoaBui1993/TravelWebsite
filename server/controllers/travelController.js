@@ -26,8 +26,8 @@ exports.homepage = async(req, res) => {
     const asia= await Country.find({'continent':'Asia'}).limit(limitNumber);
     const australia= await Country.find({'continent':'Australia'}).limit(limitNumber);
     const africa= await Country.find({'continent':'Africa'}).limit(limitNumber);
-    const northamerica= await Country.find({'continent':'North America'}).limit(limitNumber);
-    const southamerica= await Country.find({'continent':'South America'}).limit(limitNumber);
+    const northamerica= await Country.find({'continent':'NorthAmerica'}).limit(limitNumber);
+    const southamerica= await Country.find({'continent':'SouthAmerica'}).limit(limitNumber);
     const europe= await Country.find({'continent':'Europe'}).limit(limitNumber);
     const country= {latest,asia,australia,africa,northamerica,southamerica,europe}; 
     res.render('index',{ title:'Travel Blog - Home', categories,country,context});
@@ -242,7 +242,7 @@ exports.User_Profile = async(req,res) =>{
 */
 exports.User_commentOnpost = async (req, res) =>{
 
-  var commentObj= {"User_id_comment": req.body.user_id, "User_name_comment":req.body.username, "User_comment":req.body.comments ,"createAt": Date.now()};
+  var commentObj= {"User_id_comment": req.body.user_id,"User_picture_comment" : req.body.user_picture_comment,"User_name_comment":req.body.username, "User_comment":req.body.comments ,"createAt": Date.now()};
   Country.findOneAndUpdate(
     {_id: req.body.post_id},
     {$push: {comment : commentObj}},
@@ -296,4 +296,8 @@ exports.edituserprofileOnpost = async (req,res) =>{
   });
 
   res.redirect('/User_Profile/'+req.params.id)
+}
+exports.randomPlace = async (req,res) => {
+  const random =  await Country.aggregate([{ $sample: { size: 1 } }]);
+  res.redirect('/country/'+ random[0]._id);
 }

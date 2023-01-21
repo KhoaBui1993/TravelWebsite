@@ -28,4 +28,5 @@ router.get('/User_Profile/:id',travelController.User_Profile);
 router.post('/do-comment',travelController.User_commentOnpost);
 router.post('/delete-comment/:id',travelController.delete_commentOnpost);
 router.post('/edit-user-profile/:id',travelController.edituserprofileOnpost);
+router.post('/random-place',travelController.randomPlace);
 module.exports = router;

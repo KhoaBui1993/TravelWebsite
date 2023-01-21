@@ -4,6 +4,7 @@
 .container-xxl{ max-width: 1500px;}
 body {
     background-color: rgb(243, 243, 243);
+    background-image: url("/img/My project-2 (1).png");
 }
 
 a { color: var(--bs-dark); }

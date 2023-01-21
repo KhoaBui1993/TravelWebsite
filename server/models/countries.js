@@ -42,6 +42,9 @@ const countriesSchema = new mongoose.Schema({
       User_id_comment:{
         type: String,
       },
+      User_picture_comment:{
+        type: String,
+      },
       User_name_comment: {
         type: String,
       },
