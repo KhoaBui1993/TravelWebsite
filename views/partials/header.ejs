@@ -30,10 +30,10 @@
 
         <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
           <li><a href="\" class="nav-link px-2 text-secondary">Home</a></li>
-          <li><a href="#" class="nav-link px-2 text-black">Destinations</a></li>
-          <li><a href="#" class="nav-link px-2 text-black">Story</a></li>
-          <li><a href="#" class="nav-link px-2 text-black">FAQs</a></li>
-          <li><a href="#" class="nav-link px-2 text-black">About</a></li>
+          <li><a href="\categories" class="nav-link px-2 text-black">Destinations</a></li>
+          <li><a href="https://khoabui1993.github.io/" target="_blank" rel="noopener noreferrer" class="nav-link px-2 text-black">Story</a></li>
+          <li><a href="#footer_partials" target="_blank" rel="noopener noreferrer" class="nav-link px-2 text-black">FAQs</a></li>
+          <li><a href="#footer_partials" class="nav-link px-2 text-black">About</a></li>
           
         </ul>
 
@@ -43,7 +43,6 @@
 
         <div class="text-end">
           <% if (user) { %>
-           
             <!-- Dropdown button -->
             <div class="btn-group">
               <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -63,12 +62,37 @@
         </div>
       </div>
     </div>
+    <div id="msg">
+      <% if (message.success_alert){ %>
+        <div class="alert alert-success" role="alert">
+          <%= message.success_alert %>
+        </div>
+      <% }  %>
+      <% if (message.error){ %>
+        <div class="alert alert-danger" role="alert">
+          <%= message.error %>
+        </div>
+      <% }  %>
+      <% if (message.warning){ %>
+        <div class="alert alert-warning" role="alert">
+          <%= message.warning %>
+        </div>
+      <% }  %>
+    </div>
 </header>
+
+
 <script>
   let subMenu =document.getElementById("subMenu");
   function toggleMenu(){
     subMenu.classList.toggle("open-menu");
   }
+
+  setTimeout(function(){
+        if ($('#msg').length > 0) {
+            $('#msg').fadeOut();
+        }
+    }, 2000)    // 2000 millisecond 
 </script>
 <link
 href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"

@@ -152,12 +152,10 @@ exports.submitexperimentOnPost = async(req, res) => {
         author_id: user._id
       });
       await newCountry.save();
-      //  req.flash('/', 'Recipe has been added.')
+      req.flash('success_alert', 'Your experience has been added.')
       res.redirect('/');
     } catch (error) {
-      // res.json(error);
-    //   req.flash('infoErrors', error);
-      console.log(error)
+      req.flash('error', err.message)
       res.redirect('/submit-experiment');
     }
   }
@@ -185,12 +183,12 @@ exports.signupOnPost = async(req, res) => {
         });
        
         await newUser.save();
-        // req.flash('success_alert','Successfully registered, Please login!');
+        req.flash('success_alert','Successfully registered, Please login!');
         res.redirect('/signin');
       }
     } catch (error) {
       
-      // req.flash('error','Cannot registered, Please try again!');
+      req.flash('error','Cannot registered, Please try again!');
       res.redirect('/signup');
       
     }
@@ -212,11 +210,14 @@ exports.signinOnPost = async(req, res) => {
           res.cookie('access_token',token,{
             httpOnly: true
           })
+          req.flash('success_alert','Successfully login!');
           res.redirect("/");
         } else {
+          req.flash('error','Wrong password or Username. Please try again!');
           res.redirect("/signin");
         }
       } else {
+        req.flash('warning','Can not find username. Please create an account!');
         res.redirect("/signup");
       }
     } catch (err){
@@ -227,6 +228,7 @@ exports.signinOnPost = async(req, res) => {
     }
 exports.logout_get = (req,res) => {
   res.cookie('access_token','',{maxAge : 1});
+  req.flash('success_alert','You has been log out.')
   res.redirect('/');
 }
 exports.User_Profile = async(req,res) =>{
@@ -248,26 +250,23 @@ exports.User_commentOnpost = async (req, res) =>{
     {$push: {comment : commentObj}},
     function (error, success) {
       if (error) {
-          console.log(error);
+        req.flash('error','Can not publish your comment, Please try again!')
       } else {
-        console.log(success)
+        req.flash('success_alert', success.message)
       }
   });
   res.redirect('/country/'+req.body.post_id);
 }
 exports.delete_commentOnpost = async (req,res) =>{
-  console.log(req.body.post_id)
-  console.log(req.body.comment_id)
   const comment_find = await Country.findById(req.body.post_id)
-
   if (comment_find) {
     comment_find.comment.pull(req.body.comment_id)
     await comment_find.save()
-    res.redirect('/country/'+req.body.post_id);
+    req.flash('success_alert','Comment delete successful!')
   } else {
-    res.status(404)
-    throw new Error('Post not found')
+    req.flash('error','Cannot delete comment, please try again!')
   }
+  res.redirect('/country/'+req.body.post_id);
 }
 
 exports.edituserprofileOnpost = async (req,res) =>{
@@ -289,9 +288,9 @@ exports.edituserprofileOnpost = async (req,res) =>{
     { picture : newavatarName},
     function (error, success) {
       if (error) {
-          console.log(error);
+        req.flash('error','Unable to change your profile. Please try again')
       } else {
-        console.log(success)
+        req.flash('success_alert','Your profile has been updated.')
       }
   });
 

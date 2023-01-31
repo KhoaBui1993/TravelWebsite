@@ -61,7 +61,7 @@
                             <p class="mb-0">Comment</p>
                           </a>
                           <a class="d-flex align-items-center me-3">
-                            <% if(user._id == comment.User_id_comment ) { %>
+                            <% if(user !=null && user._id == comment.User_id_comment ) { %>
                             <form method="post" action="/delete-comment/<%= comment._id%>" class="inline">
                               <input class="form-control" type="hidden" name="username" value="<%=user.firstname%>">
                               <input class="form-control" type="hidden" name="post_id" value="<%= countryselect._id%>">

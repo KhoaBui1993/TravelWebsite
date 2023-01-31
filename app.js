@@ -15,13 +15,18 @@ app.use(express.urlencoded({extended: false}));
 app.use(express.json());
 app.use(cookieParser());
 app.use(session({
-    secret: 'SecertstringforSession',
+    secret: 'Helloworld',
     saveUninitialized: true,
-    resave: true
+    resave: false
 }));
 app.use(express.static('public'));
 app.use(expressLayouts);
+
 app.use(flash());
+app.use(function(req,res,next){
+    res.locals.message = req.flash();
+    next();
+})
 app.use(fileUpload());
 app.use(passport.initialize());
 app.use(passport.session());
